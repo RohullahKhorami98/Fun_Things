@@ -27,15 +27,9 @@ try:
                         + str(sec).zfill(2),
                         font=("Arial", 40, "bold"))
             time.sleep(1)
-            sec += 1
-            if sec == 60:
-                sec = 0
-                mins += 1
-            if mins == 60:
-                mins = 0
-                hr += 1
-            if hr == 13:
-                hr = 1
+            sec = dte.datetime.now().second
+            mins = dte.datetime.now().minute
+            hr = dte.datetime.now().hour
             pyautogui.mouseDown()
             pyautogui.move(0, 300, duration=1)
             pyautogui.mouseUp()
@@ -51,5 +45,4 @@ try:
                 t.circle(150)
 except:
     print("Stopped")
-
 
