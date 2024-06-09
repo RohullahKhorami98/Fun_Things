@@ -5,7 +5,8 @@ def info(Class_choice):
     print("SUBNETTING Class {}".format(Class_choice))
     network_address = input("Enter the network address: ")
     subnet = input("Enter the subnet: ")
-    return (network_address, subnet)
+    num_subnets = input("Enter the number of subnets: ")
+    return (network_address, subnet, num_subnets)
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         usage='python subnetting.py -S <class> / --SubnetClass <class>',
@@ -15,12 +16,11 @@ if __name__ == "__main__":
     
     if args.SubnetClass == 'A':
         print("SUBNETTING Class A")
-
     elif args.SubnetClass == 'B':
        print("SUBNETTING Class B")
     elif args.SubnetClass == 'C':
-        network_address, subnet = info(args.SubnetClass)
-        s = C.classCs(subnet, network_address)
+        network_address, subnet, num_subnets = info(args.SubnetClass)
+        s = C.classCs(subnet, network_address,num_subnets)
         subbin, networkbin = s.to_binary(subnet, network_address)
         print(networkbin,"\n",subbin)
     else:
