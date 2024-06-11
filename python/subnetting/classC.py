@@ -21,32 +21,37 @@ class classCs:
         self.number_of_subnets = number_of_subnets
         
     #### TO BINARY ####
-    def to_binary(self, subnet, network_address):
-        sublist = subnet.split(".")
-        networklist = network_address.split(".")
+    def to_binary(self):
+        sublist = self.subnet.split(".")
+        networklist = self.network_address.split(".")
         subbin = [bin(int(x))[2:].zfill(8) for x in sublist]
         networkbin = [bin(int(y))[2:].zfill(8) for y in networklist]
         return subbin, networkbin
     #### NUMBER OF SUBNETS ####
-    def calculate_number_of_subnets(self, number_of_subnets):
-        number_of_bits = math.log2(number_of_subnets)
-        _ , network_bits = self.to_binary(self.subnet, self.network_address)
+    def calculate_number_of_subnets(self):
+        number_of_bits = math.log2(self.number_of_subnets)
+        _ , network_bits = self.to_binary()
         bits = network_bits[-1][:int(number_of_bits)]
         return bits 
     def bit_combinations(self):
-        length_bits = len(self.calculate_number_of_subnets(self.number_of_subnets))
+        length_bits = len(self.calculate_number_of_subnets())
         bin_list = [0,1]
         combo = list(product(bin_list, repeat=length_bits))
         bit_combo = ["".join(map(str,c)) for c in combo]
         return bit_combo
     def get_network_ranges(self):
-        subbin, networkbin = self.to_binary(self.subnet, self.network_address)
-        new_sub_combo = list()
-        new_network_combo = list()
-        bits = self.calculate_number_of_subnets(self.number_of_subnets)
+        last_sub, last_network = list(), list()
+        new_sub  = list()
+        subbin, networkbin = self.to_binary()
+        bits = self.calculate_number_of_subnets()
         bit_combos = self.bit_combinations()
-        for c in range(len(bit_combos)):
-            temp = subbin[c][:-len(bits)]
-            new_sub_combo.append(temp+bit_combos[c])
-        print(new_sub_combo)
-        return new_sub_combo
+        sub_temp1 , net_temp2 = subbin[-1], networkbin[-1]
+
+        for i in range(len(bit_combos)):
+            last_network.append(net_temp2[:-len(bits)]+bit_combos[i])
+        last_sub.append("1"*len(bits)+sub_temp1[len(bits):])
+        new_net = [networkbin[:-1] + [x] for x in last_network]
+        new_sub = [subbin[:-1] + [y] for y in last_sub]
+        ranges = [new_net, new_sub[0]]
+        return ranges
+
