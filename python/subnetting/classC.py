@@ -32,13 +32,15 @@ class classCs:
         number_of_bits = math.log2(self.number_of_subnets)
         _ , network_bits = self.to_binary()
         bits = network_bits[-1][:int(number_of_bits)]
-        return bits 
+        return bits
+    #### BIT COMBINATIONS ####
     def bit_combinations(self):
         length_bits = len(self.calculate_number_of_subnets())
         bin_list = [0,1]
         combo = list(product(bin_list, repeat=length_bits))
         bit_combo = ["".join(map(str,c)) for c in combo]
         return bit_combo
+    #### GET NETWORK RANGES ####
     def get_network_ranges(self):
         last_sub, last_network = list(), list()
         new_sub  = list()
@@ -54,4 +56,17 @@ class classCs:
         new_sub = [subbin[:-1] + [y] for y in last_sub]
         ranges = [new_net, new_sub[0]]
         return ranges
+    #### GET BROADCAST RANGES ####
+    def get_broadcast_ranges(self):
+        broad_cast_list = list()
+        _, networkbin = self.to_binary()
+        bits = self.calculate_number_of_subnets()
+        bit_combos = self.bit_combinations()
+        broad_cast_temp = networkbin[-1][-len(bits):]+"1"*len(
+            networkbin[-1][:-len(bits)])
+        for i in range(len(bit_combos)):
+            broad_cast_list.append(bit_combos[i]+broad_cast_temp[len(bits):])
+        broad_cast_range = [networkbin[:-1]+[x] for x in broad_cast_list]
+        return broad_cast_range
+
 

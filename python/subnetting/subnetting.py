@@ -19,13 +19,9 @@ if __name__ == "__main__":
     elif args.SubnetClass == 'B':
        print("SUBNETTING Class B")
     elif args.SubnetClass == 'C':
-       # network_address, subnet, num_subnets = info(args.SubnetClass)
         subnet, network_address, num_subnets ="255.255.255.0","192.168.1.0", 4
         s = C.classCs(subnet, network_address,num_subnets)
-        #subbin, networkbin = s.to_binary(subnet, network_address)
-        #print(networkbin,"\n",subbin)
-        #print(s.bit_combinations())
-        #print(s.calculate_number_of_subnets(num_subnets))
         print(s.get_network_ranges())
+        print("broadcast: ",s.get_broadcast_ranges())
     else:
         print("Invalid Class")
