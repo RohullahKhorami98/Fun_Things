@@ -1,6 +1,5 @@
 import classC as C
 import argparse
-
 def info(Class_choice):
     print("SUBNETTING Class {}".format(Class_choice))
     network_address = input("Enter the network address: ")
@@ -21,7 +20,7 @@ if __name__ == "__main__":
     elif args.SubnetClass == 'C':
         subnet, network_address, num_subnets ="255.255.255.0","192.168.1.0", 4
         s = C.classCs(subnet, network_address,num_subnets)
-        print(s.get_network_ranges())
-        print("broadcast: ",s.get_broadcast_ranges())
+        print(s.get_useable_ranges())
+
     else:
         print("Invalid Class")

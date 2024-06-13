@@ -48,9 +48,8 @@ class classCs:
         bits = self.calculate_number_of_subnets()
         bit_combos = self.bit_combinations()
         sub_temp1 , net_temp2 = subbin[-1], networkbin[-1]
-
         for i in range(len(bit_combos)):
-            last_network.append(net_temp2[:-len(bits)]+bit_combos[i])
+            last_network.append(bit_combos[i]+net_temp2[:-len(bits)])
         last_sub.append("1"*len(bits)+sub_temp1[len(bits):])
         new_net = [networkbin[:-1] + [x] for x in last_network]
         new_sub = [subbin[:-1] + [y] for y in last_sub]
@@ -68,5 +67,24 @@ class classCs:
             broad_cast_list.append(bit_combos[i]+broad_cast_temp[len(bits):])
         broad_cast_range = [networkbin[:-1]+[x] for x in broad_cast_list]
         return broad_cast_range
-
-
+    #### Useable IP Ranges ####
+    def get_useable_ranges(self):
+        network_ranges = self.get_network_ranges()
+        broadcast_ranges = self.get_broadcast_ranges()
+        useable_ranges = list()
+        for (i,j) in zip(network_ranges[0], broadcast_ranges):
+            temp_net = int(i[-1],2)
+            temp_broad = int(j[-1],2)
+            range_list = list()
+            count_temp = temp_net
+            for k in range(temp_net+1, temp_broad):
+                count_temp+=1
+                range_list.append(count_temp)
+            useable_ranges.append(range_list)
+        return useable_ranges
+    #### MERGE USEABLE RANGES ####
+    def merge_useable_ranges(self):
+        useable_ranges = self.get_useable_ranges()
+        ranges = self.get_network_ranges()
+        merged_useable_ranges = list()
+        
