@@ -85,6 +85,17 @@ class classCs:
     #### MERGE USEABLE RANGES ####
     def merge_useable_ranges(self):
         useable_ranges = self.get_useable_ranges()
-        ranges = self.get_network_ranges()
-        merged_useable_ranges = list()
-        
+        ranges = self.get_network_ranges()[0]
+        integer_ranges = list()
+        last_list =  list()
+        for i in ranges:
+            temp_list = list()
+            for j in i[:-1]:
+                temp_list.append(int(j,2))
+            integer_ranges.append(temp_list)
+        for r in range(len(integer_ranges)):
+           temp_list = list()
+           for l in useable_ranges[r]:
+               temp_list.append(integer_ranges[r]+[l])
+           last_list.append(temp_list)
+        return last_list

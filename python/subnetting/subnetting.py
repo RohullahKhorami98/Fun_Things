@@ -1,5 +1,6 @@
 import classC as C
 import argparse
+import pandas as pd # type: ignore
 def info(Class_choice):
     print("SUBNETTING Class {}".format(Class_choice))
     network_address = input("Enter the network address: ")
@@ -12,15 +13,20 @@ if __name__ == "__main__":
         description='SUBNETTING class A, B, C',)
     parser.add_argument('-s','--SubnetClass' ,choices={'C':'ClassC','B':'ClassB','A':'ClassA'} , help='Select the class', type=str)
     args = parser.parse_args()
-    
+   
     if args.SubnetClass == 'A':
         print("SUBNETTING Class A")
     elif args.SubnetClass == 'B':
        print("SUBNETTING Class B")
     elif args.SubnetClass == 'C':
-        subnet, network_address, num_subnets ="255.255.255.0","192.168.1.0", 4
+        column_name = "Subnet "
+        subnet, network_address, num_subnets ="255.255.255.0","192.168.1.0", 8
         s = C.classCs(subnet, network_address,num_subnets)
-        print(s.get_useable_ranges())
-
+        usable_ranges = s.merge_useable_ranges()
+        table_header = [column_name+str(x) for x in range(1, len(usable_ranges)+1)]
+        df = pd.DataFrame(usable_ranges).transpose()
+        df.columns = table_header
+        final_table = df.to_string(index=False)
+        print(final_table)
     else:
         print("Invalid Class")
